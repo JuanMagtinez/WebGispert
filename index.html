@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gispert — Autor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --dark: #1a1612;
+      --ink: #2c2620;
+      --amber: #b8864e;
+      --amber-light: #d4a76a;
+      --muted: #8a7968;
+      --rule: rgba(184,134,78,0.3);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1000;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(245,240,232,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--amber); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 5rem 5rem 8rem;
+      position: relative; z-index: 2;
+      animation: fadeUp 1.2s ease both;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: clamp(4rem, 7vw, 7rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--amber);
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      margin-top: 1rem;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 1rem;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--dark);
+      text-decoration: none;
+      border-bottom: 1px solid var(--amber);
+      padding-bottom: 0.3rem;
+      transition: color 0.3s, gap 0.3s;
+      width: fit-content;
+    }
+
+    .hero-cta:hover { color: var(--amber); gap: 1.6rem; }
+
+    .hero-image-side {
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 1.8s ease both 0.3s;
+    }
+
+    .hero-image-side::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--cream) 0%, transparent 35%);
+      z-index: 2;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      bottom: -2rem; right: -1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(8rem, 14vw, 18rem);
+      font-weight: 600;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(184,134,78,0.12);
+      line-height: 1;
+      z-index: 1;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* Book showcase in hero */
+    .hero-book-wrap {
+      position: absolute;
+      right: 5%; top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+    }
+
+    .book-3d {
+      width: 220px;
+      height: 310px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: perspective(1000px) rotateY(-18deg) rotateX(4deg);
+      filter: drop-shadow(-30px 30px 50px rgba(26,22,18,0.35));
+      transition: transform 0.6s ease;
+    }
+
+    .book-3d:hover {
+      transform: perspective(1000px) rotateY(-8deg) rotateX(2deg) translateY(-8px);
+    }
+
+    .book-cover {
+      width: 100%; height: 100%;
+      border-radius: 3px 6px 6px 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .book-cover img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Placeholder cover when no image */
+    .book-cover-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(145deg, #2c2620 0%, #3d3228 40%, #1a1612 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .book-cover-placeholder::before {
+      content: '';
+      position: absolute; inset: 8px;
+      border: 1px solid rgba(184,134,78,0.4);
+    }
+
+    .book-cover-placeholder::after {
+      content: '';
+      position: absolute; inset: 14px;
+      border: 1px solid rgba(184,134,78,0.15);
+    }
+
+    .book-placeholder-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--amber-light);
+      line-height: 1.3;
+      position: relative; z-index: 1;
+    }
+
+    .book-placeholder-ornament {
+      font-size: 1.8rem;
+      color: rgba(184,134,78,0.5);
+      margin: 1rem 0;
+      position: relative; z-index: 1;
+    }
+
+    .book-placeholder-author {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      position: relative; z-index: 1;
+    }
+
+    .book-spine {
+      position: absolute;
+      left: -16px; top: 3px;
+      width: 16px; height: calc(100% - 6px);
+      background: linear-gradient(to right, #0e0c0a, #2c2620);
+      border-radius: 3px 0 0 3px;
+      transform-origin: right;
+      transform: rotateY(90deg);
+    }
+
+    /* ── DIVIDER ── */
+    .ornament-divider {
+      text-align: center;
+      padding: 3rem 0 2rem;
+      color: var(--amber);
+      font-size: 1.4rem;
+      letter-spacing: 0.5em;
+      opacity: 0.6;
+    }
+
+    .section-rule {
+      width: 60px; height: 1px;
+      background: var(--amber);
+      margin: 0 auto 1rem;
+    }
+
+    /* ── ABOUT ── */
+    #sobre {
+      padding: 8rem 8rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--amber);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      align-self: start;
+      margin-top: 0.4rem;
+    }
+
+    .about-content {}
+
+    .about-content h2 {
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--dark);
+      margin-bottom: 2rem;
+    }
+
+    .about-content h2 em { font-style: italic; color: var(--amber); }
+
+    .about-content p {
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+      max-width: 65ch;
+    }
+
+    .author-photo-wrap {
+      margin-top: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .author-photo-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: -12px; right: -12px;
+      width: 100%; height: 100%;
+      border: 1px solid var(--amber);
+      opacity: 0.4;
+    }
+
+    .author-photo-wrap img {
+      width: 200px; height: 260px;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%);
+    }
+
+    /* Author photo placeholder */
+    .author-photo-placeholder {
+      width: 200px; height: 260px;
+      background: linear-gradient(160deg, #2c2620, #1a1612);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .author-photo-placeholder svg {
+      opacity: 0.25;
+    }
+
+    /* ── BOOKS ── */
+    #llibres {
+      background: var(--dark);
+      padding: 8rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #llibres::before {
+      content: 'LLIBRES';
+      position: absolute;
+      top: -1rem; left: -1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18rem;
+      font-weight: 600;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(184,134,78,0.06);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .books-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .books-header h2 {
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .books-header h2 em { font-style: italic; color: var(--amber); }
+
+    .books-header p {
+      font-size: 1.1rem;
+      color: rgba(245,240,232,0.5);
+      font-style: italic;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .book-card {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .book-card-img {
+      width: 100%;
+      aspect-ratio: 2/3;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .book-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease, filter 0.4s ease;
+    }
+
+    .book-card:hover .book-card-img img {
+      transform: scale(1.04);
+      filter: brightness(0.85);
+    }
+
+    /* Book card placeholder */
+    .book-card-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      transition: transform 0.6s ease;
+    }
+
+    .book-card:hover .book-card-placeholder {
+      transform: scale(1.03);
+    }
+
+    .bcp-1 { background: linear-gradient(160deg, #2c1f14 0%, #1a0f08 100%); }
+    .bcp-2 { background: linear-gradient(160deg, #0f1a14 0%, #081008 100%); }
+    .bcp-3 { background: linear-gradient(160deg, #1a1020 0%, #0c0810 100%); }
+
+    .book-card-placeholder::before {
+      content: ''; position: absolute; inset: 12px;
+      border: 1px solid rgba(184,134,78,0.25);
+    }
+
+    .bcp-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--amber-light);
+      line-height: 1.3;
+      position: relative; z-index: 1;
+      margin-bottom: 1rem;
+    }
+
+    .bcp-ornament {
+      color: rgba(184,134,78,0.4);
+      font-size: 1.5rem;
+      position: relative; z-index: 1;
+    }
+
+    .book-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(184,134,78,0.9) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex; align-items: flex-end; padding: 1.5rem;
+    }
+
+    .book-card:hover .book-card-overlay { opacity: 1; }
+
+    .book-card-overlay-text {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+
+    .book-card-title {
+      font-size: 1.4rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 0.4rem;
+    }
+
+    .book-card-meta {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+    }
+
+    .book-card-badge {
+      display: inline-block;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dark);
+      background: var(--amber);
+      padding: 0.25rem 0.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ── ACTIVITIES ── */
+    #activitats {
+      padding: 8rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .activities-header {
+      margin-bottom: 4rem;
+    }
+
+    .activities-header h2 {
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      font-weight: 300;
+      color: var(--dark);
+    }
+
+    .activities-header h2 em { font-style: italic; color: var(--amber); }
+
+    .activities-header p {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    .activity-list {
+      display: flex; flex-direction: column; gap: 0;
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 3rem;
+      align-items: center;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .activity-item:first-child { border-top: 1px solid var(--rule); }
+
+    .activity-item:hover { padding-left: 1rem; }
+
+    .activity-date {
+      text-align: center;
+    }
+
+    .activity-date-day {
+      font-size: 2.8rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--dark);
+    }
+
+    .activity-date-month {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .activity-info {}
+
+    .activity-type {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.4rem;
+    }
+
+    .activity-name {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .activity-place {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .activity-arrow {
+      font-size: 1.5rem;
+      color: var(--rule);
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .activity-item:hover .activity-arrow {
+      color: var(--amber);
+      transform: translateX(6px);
+    }
+
+    /* ── CONTACT ── */
+    #contacte {
+      background: var(--ink);
+      padding: 7rem 8rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contacte::before {
+      content: '✦';
+      position: absolute;
+      top: -3rem; left: 50%;
+      transform: translateX(-50%);
+      font-size: 20rem;
+      color: rgba(184,134,78,0.03);
+      pointer-events: none;
+    }
+
+    #contacte h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    #contacte h2 em { font-style: italic; color: var(--amber); }
+
+    #contacte p {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: rgba(245,240,232,0.5);
+      margin-bottom: 3rem;
+      max-width: 500px;
+      margin-left: auto; margin-right: auto;
+    }
+
+    .contact-links {
+      display: flex; gap: 3rem; justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(184,134,78,0.3);
+      padding-bottom: 0.3rem;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .contact-link:hover { color: var(--amber); border-color: var(--amber); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      padding: 2rem 8rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(184,134,78,0.1);
+    }
+
+    footer p {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: rgba(245,240,232,0.25);
+      text-transform: uppercase;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+
+      .hero { grid-template-columns: 1fr; }
+      .hero-text { padding: 7rem 2rem 4rem; }
+      .hero-image-side { display: none; }
+
+      #sobre { grid-template-columns: 1fr; gap: 2rem; padding: 5rem 2rem; }
+      .section-label { writing-mode: horizontal-tb; transform: none; }
+
+      #llibres { padding: 5rem 2rem; }
+      #activitats { padding: 5rem 2rem; }
+
+      .activity-item { grid-template-columns: 80px 1fr; gap: 1.5rem; }
+      .activity-arrow { display: none; }
+
+      #contacte { padding: 5rem 2rem; }
+      footer { flex-direction: column; gap: 1rem; padding: 2rem; text-align: center; }
+    }
+
+    /* ── INSTRUCTIONS BANNER (remove before go live) ── */
+    .dev-banner {
+      background: #b8864e22;
+      border: 1px dashed #b8864e66;
+      color: #b8864e;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      padding: 0.7rem 1.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dev-banner">
+    ✦ Pàgina de prova — Substitueix les imatges i textos marcats amb [corxets] — Esborra aquest banner abans de publicar ✦
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">GISPERT</a>
+    <ul class="nav-links">
+      <li><a href="#sobre">L'autor</a></li>
+      <li><a href="#llibres">Llibres</a></li>
+      <li><a href="#activitats">Activitats</a></li>
+      <li><a href="#contacte">Contacte</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">✦ Escriptor català</p>
+      <h1 class="hero-title">
+        [Nom]<br>
+        <em>Gispert</em>
+      </h1>
+      <p class="hero-subtitle">Autor de novel·les, narrador de silencis.</p>
+      <a href="#llibres" class="hero-cta">Descobrir els llibres →</a>
+    </div>
+
+    <div class="hero-image-side">
+      <div class="hero-bg-text">GISPERT</div>
+      <div class="hero-book-wrap">
+        <div class="book-3d">
+          <!-- 
+            PER AFEGIR LA FOTO DEL LLIBRE:
+            Substitueix el bloc .book-cover-placeholder per:
+            <div class="book-cover">
+              <img src="images/portada-principal.jpg" alt="Portada del llibre">
+            </div>
+          -->
+          <div class="book-cover">
+            <div class="book-cover-placeholder">
+              <p class="book-placeholder-title">[Títol del<br>Teu Llibre]</p>
+              <p class="book-placeholder-ornament">✦</p>
+              <p class="book-placeholder-author">Gispert</p>
+            </div>
+          </div>
+          <div class="book-spine"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="sobre">
+    <p class="section-label">L'autor</p>
+    <div class="about-content reveal">
+      <h2>Una veu<br><em>singular</em><br>en la narrativa</h2>
+
+      <!-- 
+        PER AFEGIR FOTO DE L'AUTOR:
+        Substitueix .author-photo-placeholder per:
+        <div class="author-photo-wrap">
+          <img src="images/autor.jpg" alt="[Nom Gispert]">
+        </div>
+      -->
+      <div class="author-photo-wrap">
+        <div class="author-photo-placeholder">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="30" r="18" stroke="#f5f0e8" stroke-width="1.5"/>
+            <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30" stroke="#f5f0e8" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <p style="margin-top:2rem">
+        [Nom Gispert] és un escriptor nascut a [lloc, any]. La seva obra es mou entre la introspecció psicològica i els paisatges de la memòria, amb una prosa que destil·la la quotidianitat fins a revelar-ne l'essència més íntima.
+      </p>
+      <p>
+        Ha publicat [nombre] novel·les i ha estat reconegut amb [premi o reconeixement]. La seva escriptura ha estat traduïda a [idiomes] i celebrada per crítica i lectors per igual.
+      </p>
+    </div>
+  </section>
+
+  <!-- BOOKS -->
+  <section id="llibres">
+    <div class="books-header reveal">
+      <h2>Les <em>obres</em></h2>
+      <p>Una trajectòria narrativa construïda llibre a llibre</p>
+    </div>
+
+    <div class="books-grid">
+
+      <!-- LLIBRE 1 — Principal -->
+      <div class="book-card reveal">
+        <div class="book-card-img">
+          <!--
+            PER AFEGIR LA IMATGE DEL LLIBRE:
+            Substitueix .book-card-placeholder per:
+            <img src="images/portada-1.jpg" alt="[Títol Llibre 1]">
+            I elimina la línia de .book-card-overlay
+          -->
+          <div class="book-card-placeholder bcp-1">
+            <p class="bcp-title">[Títol<br>Primer Llibre]</p>
+            <p class="bcp-ornament">✦</p>
+          </div>
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">Veure detalls →</span>
+          </div>
+        </div>
+        <div class="book-card-badge">Novetat</div>
+        <h3 class="book-card-title">[Títol Primer Llibre]</h3>
+        <p class="book-card-meta">[Editorial] · [Any]</p>
+      </div>
+
+      <!-- LLIBRE 2 -->
+      <div class="book-card reveal">
+        <div class="book-card-img">
+          <div class="book-card-placeholder bcp-2">
+            <p class="bcp-title">[Títol<br>Segon Llibre]</p>
+            <p class="bcp-ornament">✦</p>
+          </div>
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">Veure detalls →</span>
+          </div>
+        </div>
+        <h3 class="book-card-title">[Títol Segon Llibre]</h3>
+        <p class="book-card-meta">[Editorial] · [Any]</p>
+      </div>
+
+      <!-- LLIBRE 3 -->
+      <div class="book-card reveal">
+        <div class="book-card-img">
+          <div class="book-card-placeholder bcp-3">
+            <p class="bcp-title">[Títol<br>Tercer Llibre]</p>
+            <p class="bcp-ornament">✦</p>
+          </div>
+          <div class="book-card-overlay">
+            <span class="book-card-overlay-text">Veure detalls →</span>
+          </div>
+        </div>
+        <h3 class="book-card-title">[Títol Tercer Llibre]</h3>
+        <p class="book-card-meta">[Editorial] · [Any]</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACTIVITIES -->
+  <section id="activitats">
+    <div class="activities-header reveal">
+      <h2>Pròximes <em>activitats</em></h2>
+      <p>Presentacions, lectures i trobades amb l'autor</p>
+    </div>
+
+    <div class="activity-list">
+
+      <div class="activity-item reveal">
+        <div class="activity-date">
+          <div class="activity-date-day">[15]</div>
+          <div class="activity-date-month">[Mes Any]</div>
+        </div>
+        <div class="activity-info">
+          <p class="activity-type">Presentació</p>
+          <p class="activity-name">[Títol de l'activitat]</p>
+          <p class="activity-place">[Lloc] · [Hora]h</p>
+        </div>
+        <div class="activity-arrow">→</div>
+      </div>
+
+      <div class="activity-item reveal">
+        <div class="activity-date">
+          <div class="activity-date-day">[22]</div>
+          <div class="activity-date-month">[Mes Any]</div>
+        </div>
+        <div class="activity-info">
+          <p class="activity-type">Lectura</p>
+          <p class="activity-name">[Títol de l'activitat]</p>
+          <p class="activity-place">[Lloc] · [Hora]h</p>
+        </div>
+        <div class="activity-arrow">→</div>
+      </div>
+
+      <div class="activity-item reveal">
+        <div class="activity-date">
+          <div class="activity-date-day">[08]</div>
+          <div class="activity-date-month">[Mes Any]</div>
+        </div>
+        <div class="activity-info">
+          <p class="activity-type">Taula rodona</p>
+          <p class="activity-name">[Títol de l'activitat]</p>
+          <p class="activity-place">[Lloc] · [Hora]h</p>
+        </div>
+        <div class="activity-arrow">→</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contacte">
+    <h2 class="reveal">En <em>contacte</em></h2>
+    <p class="reveal">Per a entrevistes, presentacions o col·laboracions editorials</p>
+    <div class="contact-links reveal">
+      <a href="mailto:[correu@exemple.cat]" class="contact-link">✉ [correu@exemple.cat]</a>
+      <a href="https://instagram.com/[usuari]" target="_blank" class="contact-link">Instagram</a>
+      <a href="https://twitter.com/[usuari]" target="_blank" class="contact-link">Twitter / X</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 [Nom Gispert] · Tots els drets reservats</p>
+    <p>Disseny web · [Nom tueu]</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          // Stagger sibling reveals
+          const siblings = e.target.closest('.books-grid, .activity-list');
+          if (siblings) {
+            const idx = Array.from(siblings.children).indexOf(e.target);
+            e.target.style.transitionDelay = `${idx * 0.12}s`;
+          }
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Smooth nav highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--amber)' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>
